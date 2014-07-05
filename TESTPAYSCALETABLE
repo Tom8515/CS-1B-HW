@@ -1,0 +1,44 @@
+TESTPAYSCALETABLE
+
+
+
+/**
+ *  Tests class PayTable by creating one object from it and
+ *  calling methods on it.
+ */
+class TestPayScaleTable {
+   public static void main(String args[])  {
+      PayScaleTable table;
+      table = new PayScaleTable ();   
+      System.out.println(table);
+ 
+      System.out.println(table.rate(1,4));
+      //  An employee with pay grade 1 and 4 years experience
+      //  earns $26 per hour, so the output is: 26.00
+ 
+      System.out.println(table.rate(2,0));
+      //  An employee just starting at pay grade 2
+      //  earns $27.50 per hour, so the output is: 27.50
+ 
+      System.out.println(table.rate(2,1));
+      //  An employee with pay grade 2 and 1 year experience
+      //  earns $29 per hour, so the output is: 29.00
+ 
+      System.out.println(table.rate(3,2));
+      //  An employee with pay grade 3 and 2 years experience
+      //  earns $38 per hour, so the output is: 38.00
+   }
+}
+ 
+/*
+Pay Scale Table: 
+================================
+20.0   21.5   23.0   24.5   26.0   
+27.5   29.0   30.5   32.0   33.5   
+35.0   36.5   38.0   39.5   41.0   
+
+26.0
+27.5
+29.0
+38.0
+*/
