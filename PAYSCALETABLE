@@ -1,0 +1,66 @@
+
+
+
+public class PayScaleTable {
+    // I assume "PayTable" in the assignment description was meant to be
+    // "PayScaleTable"
+    // declares and initializes constant MAXROW to equal 4 in order to reduce it
+    // by one to allow the program to run with the values you used for rows in
+    // the method calls for rate in the test class
+    private final static int MAXROW = 4;
+    // declares and initializes constant MAXCOL to equal 5
+    private final static int MAXCOL = 5;
+    // declares and initializes private instance array variable with MAXROW and
+    // MAXCOL values
+    private double payScaleTableArray[][] = new double[MAXROW][MAXCOL];
+
+    public PayScaleTable() {
+
+        {
+            // for loop for assigning the correct values to two-dimensional
+            // array based on observation that they increase by 7.50 downward
+            // along the rows and and by 1.50 rightward along the columns
+            for (int i = 0; i < payScaleTableArray.length; i++) {
+                for (int j = 0; j < payScaleTableArray[i].length; j++) {
+                    payScaleTableArray[i][j] = 20 + (7.50 * i) + (1.50 * j);
+
+                }
+            }
+        }
+    }
+
+    // displays individual values based on an input of cow and column
+    public double rate(int Row, int Col) {
+
+        double result;
+
+        if ((Row >= MAXROW) || (Col >= MAXCOL)) {
+            System.out.println("Row or Column index is too large");
+            return -1;
+        }
+        // added "-1" in order to make the program work with the values you
+        // inputed as rows in the method calls for rate, which implied the pay
+        // grades are beginning at 1 rather than 0
+        result = payScaleTableArray[Row - 1][Col];
+
+        return result;
+    }
+
+    // overrides default toString method which calls the address of the object
+    // and instead makes it print out the table of values
+    public String toString() {
+        String str = "Pay Scale Table: \n================================\n";
+        for (int i = 0; i < payScaleTableArray.length - 1; i++) {
+            for (int j = 0; j < payScaleTableArray[i].length; j++) {
+                str += payScaleTableArray[i][j];
+                //creates space to give the effect of columns
+                str += "   ";
+            }
+            str += "\n";
+        }
+
+        return str;
+
+    }
+
+}
