@@ -1,0 +1,47 @@
+NODE
+
+
+
+/**
+ * one object represents a node of given type
+ * @author Tom Baudin
+ * @param <T>
+ */
+public class Node<T> {
+
+    private T data;
+
+    public Node next;
+    /**
+     * sets type of node by passing parameter tp to instance variable data of class T
+     * @param tp
+     */
+    public void set(T tp){
+        data = tp;
+        
+    }
+    /**
+     * returns type
+
+     * @return
+     */
+    public T get(){
+        return data;
+        
+    }    
+    /**
+     * instantiates instance variables data and next by passing parameters t and n
+     * @param t
+     * @param n
+     */
+
+
+    public Node(T t, Node n) {
+
+        data = t;
+
+        next = n;
+
+    }
+
+}
