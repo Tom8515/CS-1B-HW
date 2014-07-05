@@ -1,0 +1,173 @@
+
+/**
+ * Generic version of the EmployeeList class. One object represents generic linked list of given type
+ * 
+ * @param <T>
+ *            
+ */
+
+public class GenericList<T> implements Cloneable {
+    
+
+    /**
+     * T stands for "Type"
+     */
+    private T t;
+    private String type;
+    /**
+     * sets t object
+     * @param t
+     */
+    public void set(T t) {
+        this.t = t;
+    }
+    /**
+     * sets name of type by passing String "tp"
+     * @param tp
+     */
+    public void setName(String tp){
+        this.type = tp;
+    }
+    /**
+     * accesses t object
+     * @return
+     */
+    public T get() {
+        return t;
+
+    }
+    
+    private Node first;
+
+    private Node last;
+
+    private int num;
+
+    /**
+     * constructor that initializes variables "first" and "last"
+     */
+
+    public GenericList() {
+
+        
+        this.first = null;
+
+        this.last = null;
+
+    }
+    /**
+     * allows type to be defined when creating new generic linked list by passing String "tp" as parameter for name
+     * @param tp
+     */
+    public GenericList(String tp) {
+        
+        setName(tp);
+
+        
+        this.first = null;
+
+        this.last = null;
+
+    }
+
+    /**
+     * creates new private class node in order to create a constructor for use
+     * in later methods
+     * 
+     * 
+     * 
+     * @author Tom Baudin
+     * 
+     * 
+     */
+
+//    private class Node {
+//
+//        T data;
+
+//
+//        Node next;
+//
+//        /**
+//         * creates constructor for use in methods of class EmployeeList
+//         */
+//
+//        public Node(T t, Node n) {
+
+//
+//            data = t;
+//
+//            next = n;
+//
+//        }
+//
+//    }
+
+    /**
+     * adds employee object to new linked list
+     */
+
+    public void add(T t) {
+
+
+        /**
+         * declares and defines new Node by passing "e" to the argument
+         * 
+         * 
+         */
+        
+        Node<T> newNode = new Node(t, null);
+        newNode.set(t);
+        System.out.println("==================\n" + num + " " + type + "s found"  + "\n"
+                + "List of " + type + "s: " + "\n==================\n\n");
+
+
+        for (current = first; current != null; current = current.next) {
+
+            mainCode += current.get().toString()+"\n";
+
+        }
+
+        return mainCode + "\n";
+
+
+    }
+
+    /**
+     * 
+     * raises salary of all Employee objects
+     * 
+     * @param percentRaise
+     */
+
+
+
+    /**
+     * Clones linked list of Employee objects by cloning an instance of class
+     * EmployeeList
+     */
+    protected GenericList clone() {
+        GenericList<T> t = new GenericList();
+
+
+        Node current;
+
+        for (current = first; current != null; current = current.next) {
+            /**
+             * creates copy of current node and adds it to new EmployeeList "e"
+             */
+            t.add((T)current.get());
+
+
+        }
+        /**
+         * returns new Employee List object as a deep copy
+         */
+        return t;
+
+    }
+    
+
+    
+
+}
