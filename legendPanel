@@ -1,0 +1,23 @@
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+
+//This class creates the Legend Border.
+
+public class legendPanel extends JPanel{
+
+	int TextBuffer = 5, LegendSize;
+
+	public legendPanel(GraphView g){
+		LegendSize = g.getLegendSize();
+		setSize(LegendSize, g.getHeight());
+
+		Border b = BorderFactory.createEtchedBorder();
+		setBorder(BorderFactory.createTitledBorder(b, "Legend", TitledBorder.CENTER, TitledBorder.TOP));
+	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+}
