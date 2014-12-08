@@ -1,0 +1,162 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.util.LinkedList;
+import java.util.Random;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+
+/**
+ *  Tests the GraphView class by creating an object of type GraphView and adding components to it. 
+ *  Creates one container of type JFrame and adds an object of type GraphView.
+ */
+public class TestGraphView 
+{
+
+	private final int FRAME_WIDTH = 800;
+	private final int FRAME_HEIGHT = 600;
+
+	/**
+	 * Builds a list of countries to debug.
+	 */
+	private void debugListOfCountries(Country [] allCountries)
+	{
+		// TO COMPLETE
+	}
+
+
+	private LinkedList<Country> buildCountryList(Country [] allCountries)
+	{	
+		JFrame frame = new JFrame("Cellular Graph");
+
+		String userInput = (String)JOptionPane.showInputDialog(
+				frame,
+				"Enter the number of countries to graph:\n",
+				"Input",
+				JOptionPane.PLAIN_MESSAGE,
+				null,
+				null,
+				"20");
+
+		int requestedSize = Integer.parseInt(userInput);
+
+		// Build the list out of a random selection of countries.
+		Random random = new Random();
+		LinkedList<Country> selectedCountries = new LinkedList<Country>();
+		for (int i = 0; i < requestedSize; i++)
+		{
+			int selectedIndex = random.nextInt(allCountries.length);
+			selectedCountries.add(allCountries[selectedIndex]);
+		}
+
+		return selectedCountries;
+	}
+
+
+	private void initializeGui(LinkedList<Country> selectedCountries)
+	{
+		//Some background stuff. Bkgd color, closes when you press x, null Layout, name
+		JFrame frame = new JFrame("Cellular Graph");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		frame.setBackground(Color.WHITE);
+
+		int graph_panel_size = FRAME_WIDTH;
+		Country[] selected = new Country[selectedCountries.size()];
+		for(int i = 0; i < selectedCountries.size(); i++){
+			selected[i] = selectedCountries.get(i);
+		}
+		GraphView myPlots = new GraphView(graph_panel_size, FRAME_HEIGHT, selected);	
+		legendPanel LegendPanel = new legendPanel(myPlots);
+
+		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		//Creates scrollPane on top of JPanel legendPanel and sets sizes
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		LegendPanel.setBounds(myPlots.getLeftBuffer(), 0, myPlots.getLegendSize(), myPlots.getHeight());
+		scrollPane.setBounds(myPlots.getLeftBuffer() + 5, 20, myPlots.getLegendSize() - 10, myPlots.getHeight());
+		frame.getContentPane().add(scrollPane);
+
+		//Where the items will be printed. Each LegendPiece is one country and one colored box.
+		JPanel borderlayoutpanel = new JPanel();
+		scrollPane.setViewportView(borderlayoutpanel);
+		borderlayoutpanel.setLayout(new GridLayout(0, 1, 0, 1));
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+
+		//Adds every single LegendPiece to the borderLayout
+		for(int i=0;i<myPlots.getCountries().length;i++) {
+			LegendPiece rowPanel = new LegendPiece(myPlots, i);
+			rowPanel.setPreferredSize(new Dimension(myPlots.getLegendSize(), rowPanel.getSizing()));
+			borderlayoutpanel.add(rowPanel);
+			rowPanel.setLayout(null);
+		}
+
+		frame.getContentPane().add(LegendPanel);
+		frame.getContentPane().add(myPlots);
+		frame.setResizable(false);
+		frame.setVisible(true);		
+	}
+
+	/**
+	 * Includes test examples for class LinkedList.
+	 */
+	public static void main(String[] args) 
+	{		
+		// Create and set objects of type Country 
+		//
+		final String FILENAME = "data/cellular.csv";	// Directory path for Mac OS X
+		//final String FILENAME = "data\\cellular.csv";	// Directory path for Windows OS (i.e. Operating System)
+		final int NUM_COUNTRIES_TO_TEST = 3;			// Note: Include test cases in addition to 3
+
+
+		// Parse the CSV data file
+		//
+		CSVReader parser = new CSVReader(FILENAME);
+
+		String [] countryNames = parser.getCountryNames();
+		int [] yearLabels = parser.getYearLabels();
+		double [][] parsedTable = parser.getParsedTable();		
+
+
+		// Create and set objects of type Country 
+		//
+		Country [] countries;
+		countries = new Country[NUM_COUNTRIES_TO_TEST];
+
+		Country current;
+		countries = new Country[countryNames.length];
+
+		for (int countryIndex = 0; countryIndex < countries.length; countryIndex++)
+		{
+			int numberOfYears = yearLabels.length;   
+			current = new Country(countryNames[countryIndex], numberOfYears);
+
+			for (int yearIndex = 0; yearIndex < numberOfYears; yearIndex++)
+			{
+				double [] allSubscriptions = parsedTable[countryIndex];
+				double countryData = allSubscriptions[yearIndex];
+				current.addSubscriptionYear(yearLabels[yearIndex], countryData);
+			}
+			countries[countryIndex] = current;
+		}
+
+		TestGraphView application = new TestGraphView();
+
+		// Note: Initially, to test your output you may hard code the number of 
+		//       countries added, and the array positions selected.
+		//		 However, make sure to comment this out before submitting your work.
+		//application.debugListOfCountries(countries);
+
+		//application.initializeGUI(countries);
+		LinkedList<Country> listOfCountries = application.buildCountryList(countries);
+		application.initializeGui(listOfCountries);
+
+	}
+}
